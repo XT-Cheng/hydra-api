@@ -1,3 +1,4 @@
+import { Database } from './oracle';
 import { API } from './api';
 import * as bodyParser from 'body-parser';
 import errorHandler = require('errorhandler');
@@ -155,9 +156,11 @@ export class RestfulServer {
     }
 }
 
-new RestfulServer().start();
+// new RestfulServer().start();
 
-API.initialize('cne35db03',3500);
+// API.initialize('cne35db03',3500);
 
-API.execute(`DLG=P_AN|USR=2500|DAT=07/13/2018|ZEI=47972|KNR=20120821|MNR=KM000001|`)
-    .then((ret) => console.log(ret));
+// API.execute(`DLG=P_AN|USR=2500|DAT=07/13/2018|ZEI=47972|KNR=20120821|MNR=KM000001|`)
+//     .then((ret) => console.log(ret));
+
+Database.select();
