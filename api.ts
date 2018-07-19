@@ -59,6 +59,20 @@ export class API {
         if (receive !== 0)
             throw new Error(`Message received failed: ${receive}`);
             
-        resolve(buf.toString());
+        resolve(API.parseResult(buf.toString().replace(/\0/g, '')));
+    }
+
+    private static parseResult(result: string) {
+        let array = result.split('|');
+
+        let isSuccess = (array[0] === '0');
+        let error = array[1].replace('KT=','');
+        let description = array[2].replace('LT=','').trimRight();
+
+        return {
+            isSuccess: isSuccess,
+            error: error,
+            description: description
+        };
     }
 }

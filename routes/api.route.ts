@@ -1,16 +1,21 @@
 import { NextFunction, Request, Response, Router } from 'express';
+import { API } from '../api';
 
 export class APIRoute {
     public static create(router: Router) {
         console.log('API route create');
 
         //Execute API
-        router.post('/api', (req: Request, res: Response, next: NextFunction) => {
+        router.post('/bapi', (req: Request, res: Response, next: NextFunction) => {
             APIRoute.execute(req, res, next);
         });
     }
 
     private static execute(req: Request, res: Response, next: NextFunction) {
-       
+       API.execute(req.body.dialog).then(ret => {
+           res.json(ret);
+       });
     }
+
+    
 }

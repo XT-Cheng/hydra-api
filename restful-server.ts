@@ -52,7 +52,7 @@ export class RestfulServer {
         this.port = this.normalizePort(process.env.PORT || 3000);
         this.app.set("port", this.port);
 
-        concat(this.connectDb(), this.preRoute(), this.routes(), this.postRoute()).subscribe(
+        concat(this.connectDb(), this.initBapi(), this.preRoute(), this.routes(), this.postRoute()).subscribe(
             _ => {
                 console.log("RESTful Server Initialized!");
             }
@@ -62,6 +62,14 @@ export class RestfulServer {
     private connectDb(): Observable<void> {
         // TODO: Connect to Oracle Database
         return empty();
+    }
+
+    private initBapi(): Observable<void> {
+        return Observable.create(observer => {
+            API.initialize('cne35db03', 3500);
+            console.log("initBapi");
+            observer.complete();
+        });
     }
 
     private preRoute(): Observable<void> {
@@ -100,7 +108,7 @@ export class RestfulServer {
 
             //Route create
             APIRoute.create(router);
-          
+
             //use router middleware
             this.app.use(router);
             observer.complete();
@@ -156,11 +164,11 @@ export class RestfulServer {
     }
 }
 
-// new RestfulServer().start();
+new RestfulServer().start();
 
 // API.initialize('cne35db03',3500);
 
 // API.execute(`DLG=P_AN|USR=2500|DAT=07/13/2018|ZEI=47972|KNR=20120821|MNR=KM000001|`)
 //     .then((ret) => console.log(ret));
 
-Database.select();
+// Database.select();
