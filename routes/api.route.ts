@@ -16,6 +16,4 @@ export class APIRoute {
            res.json(ret);
        });
     }
-
-    
 }

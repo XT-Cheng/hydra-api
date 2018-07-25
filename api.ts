@@ -65,7 +65,9 @@ export class API {
     private static parseResult(result: string) {
         let array = result.split('|');
 
-        let isSuccess = (array[0] === '0');
+        console.log(`BAPI result: ${result}`);
+
+        let isSuccess = (array[0] === 'RET=0');
         let error = array[1].replace('KT=','');
         let description = array[2].replace('LT=','').trimRight();
 

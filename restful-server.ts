@@ -7,6 +7,7 @@ import { createServer, Server } from 'http';
 import * as logger from 'morgan';
 import { concat, Observable, empty } from 'rxjs';
 import { APIRoute } from './routes/api.route';
+import { FetchRoute } from './routes/fetch.route';
 
 /**
  * The server.
@@ -60,14 +61,18 @@ export class RestfulServer {
     }
 
     private connectDb(): Observable<void> {
-        // TODO: Connect to Oracle Database
-        return empty();
+        return Observable.create(observer => {
+            Database.createPool().then(() => {
+                console.log("db connected");
+                observer.complete();
+            });
+        });
     }
 
     private initBapi(): Observable<void> {
         return Observable.create(observer => {
             API.initialize('cne35db03', 3500);
-            console.log("initBapi");
+            console.log("Bapi initialized");
             observer.complete();
         });
     }
@@ -96,7 +101,7 @@ export class RestfulServer {
         return Observable.create(observer => {
             this.app.use(errorHandler());
             console.log("postRoute");
-            observer.next();
+            observer.complete();
         })
     }
 
@@ -108,6 +113,7 @@ export class RestfulServer {
 
             //Route create
             APIRoute.create(router);
+            FetchRoute.create(router);
 
             //use router middleware
             this.app.use(router);
