@@ -101,7 +101,7 @@ export class RestfulServer {
         return Observable.create(observer => {
             this.app.use(errorHandler());
             console.log("postRoute");
-            observer.complete();
+            observer.next();
         })
     }
 

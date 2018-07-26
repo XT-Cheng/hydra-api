@@ -74,7 +74,8 @@ export class API {
         return {
             isSuccess: isSuccess,
             error: error,
-            description: description
+            description: description,
+            content: result
         };
     }
 }
