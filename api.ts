@@ -37,6 +37,7 @@ export class API {
         if (sent !== 0)
             throw new Error(`Message sent failed: ${sent}`);
 
+        console.log(`Dialog: ${dialog}`);
         return new Promise(function (resolve, reject) {
              API.receive(resolve, reject);
         });
